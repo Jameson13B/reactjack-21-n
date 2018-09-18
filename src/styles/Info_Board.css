@@ -6,7 +6,7 @@
     background: white;
 }
 .InfoBoard .element {
-    width: 65%;
+    width: 85%;
     display: flex;
     justify-content: space-evenly;
     margin: 0 auto;

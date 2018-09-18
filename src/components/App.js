@@ -33,6 +33,11 @@ class App extends Component {
     this.state.bal > 0 && this.state.name ? document.getElementById('Splash').style.display = 'none' : alert('Insert your name and a starting balance higher then $0')
   }
   handleDeal = () => {
+    if (this.state.games === 3) {
+      axios.get('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+        .then(response => {this.setState({ deckId: response.data.deck_id, games: 1 })})
+        .catch(err => console.log(`Shuffle: ${err}`))
+    }
     axios.get(`https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=4`)
       .then(response => {
         const houseHand = [response.data.cards[0].image, response.data.cards[2].image]

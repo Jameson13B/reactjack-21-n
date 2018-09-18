@@ -13,7 +13,7 @@ const InfoBoard = (props) => {
                 <p>$ {props.bet}</p>
             </div>
             <div className='element'>
-                <h1>Win:</h1>
+                <h1>+/-:</h1>
                 <p>$ {props.win}</p>
             </div>
         </div>
