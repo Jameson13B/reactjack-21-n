@@ -74,16 +74,10 @@ class App extends Component {
     }
   }
   handleStand = () => {
-    // do {
-    //   this.handleHouse()
-    //   console.log(this.state.houseTotal)
-    // }
-    // while (this.state.houseTotal < 17 && this.state.active)
     if (this.state.houseTotal < 17 && this.state.active) {
-      this.handleHouse()
-      return this.handleStand()
+      this.handleHouse().then(this.handleStand)
     }
-    if (this.state.playerTotal > this.state.houseTotal) {
+    else if (this.state.playerTotal > this.state.houseTotal || this.state.houseTotal > 21) {
       this.handleWin()
     } else {
       this.handleLose()
@@ -129,42 +123,38 @@ class App extends Component {
       bet: 0,
       bal,
       playerAce: false,
-      win: `${this.state.bet}`
+      win: `${this.state.bet} WIN`
     })
-    alert('You Win!')
+    console.log('You Win!')
   }
   handleLose = () => {
     this.setState({
       active: false,
       bet: 0,
       playerAce: false,
-      win: 'Lose'
+      win: `${this.state.bet} Lose`
     })
-    alert('You Lost')
+    console.log('You Lost')
   }
   handleAce = (response) => {
     if (response === 'ACE') {
       this.setState({ playerAce: true })
     }
   }
-  handleHouse = () => {
-    console.log('Pre handleHouse')
-    axios.get(`https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=1`)
-      .then(response => {
-        console.log('I got inside')
-        // Joins the house hand and new card image
-        const houseHand = this.state.houseHand.slice()
-        houseHand.push(response.data.cards[0].image)
-        // Update players total
-        const houseTotal = this.state.houseTotal + this.handleValue(response.data.cards[0].value)
-        // Set State with new values
-        this.setState({ houseHand, houseTotal })
-        // Check for bust
-        if (houseTotal > 21) {
-          this.handleWin()
-        }
-      })
-      .catch(err => console.log(`House Hit: ${err}`))
+  handleHouse = async () => {
+    return (
+      axios.get(`https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=1`)
+        .then(response => {
+          // Joins the house hand and new card image
+          const houseHand = this.state.houseHand.slice()
+          houseHand.push(response.data.cards[0].image)
+          // Update players total
+          const houseTotal = this.state.houseTotal + this.handleValue(response.data.cards[0].value)
+          // Set State with new values
+          this.setState({ houseHand, houseTotal })
+        })
+        .catch(err => console.log(`House Hit: ${err}`))  
+    )
   }
 
   render() {
@@ -191,6 +181,5 @@ class App extends Component {
 
 export default App;
 
-
-// Handle Stand
-// Tie response
+// 21 on Deal
+// Tie
