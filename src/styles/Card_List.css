@@ -1,0 +1,8 @@
+.CardList {
+    border: 1px solid black;
+    border-radius: 15px;
+    height: 41%;
+    background: white;
+    display: flex;
+    justify-content: space-evenly;
+}

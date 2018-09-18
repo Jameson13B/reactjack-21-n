@@ -1,0 +1,25 @@
+.Button {
+    border: 1px solid black;
+    border-radius: 15px;
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    margin: 0 .75rem;
+    cursor: pointer;
+}
+.small {
+    width: 42%;
+    font-size: 3rem;
+}
+.small:nth-child(1) {
+    margin-right: 1.5rem;
+}
+.big {
+    width: 100%;
+    font-size: 4rem;
+}
+.active {
+    border-width: 3px;
+}

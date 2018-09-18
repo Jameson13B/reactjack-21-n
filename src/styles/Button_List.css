@@ -1,0 +1,6 @@
+.ButtonList {
+    display: flex;
+    flex-wrap: wrap;
+    margin: .5rem;
+    height: 67%;
+}

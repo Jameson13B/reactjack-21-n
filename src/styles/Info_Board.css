@@ -1,0 +1,28 @@
+.InfoBoard {
+    border: 3px solid black;
+    border-radius: 15px;
+    margin: .75rem;
+    height: 20%;
+    background: white;
+}
+.InfoBoard .element {
+    width: 65%;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 auto;
+}
+.InfoBoard h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-top: .75rem;
+}
+.InfoBoard h1:nth-child(0) {
+    margin-top: 0;
+}
+.InfoBoard p {
+    font-size: 3rem;
+    margin-top: .75rem;
+}
+.InfoBoard p:nth-child(0) {
+    margin-top: 0;
+}

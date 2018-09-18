@@ -1,0 +1,24 @@
+.BetToggle {
+    margin: .75rem;
+    height: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.BetToggle .betBtn {
+    border: 1px solid black;
+    border-radius: 15px;
+    height: 75%;
+    width: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    cursor: pointer;
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+.BetToggle .font {
+    margin: 0 1rem;
+    font-size: 2rem;
+}
