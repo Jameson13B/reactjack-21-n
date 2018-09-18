@@ -17,8 +17,8 @@ class App extends Component {
       win: 0,
       houseTotal: 0,
       playerTotal: 0,
-      houseHand:[],
-      playerHand:[],
+      houseHand: [],
+      playerHand: [],
       active: false,
       deckId: 0,
       games: 0,
@@ -28,7 +28,7 @@ class App extends Component {
 
   start = () => {
     axios.get('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
-      .then(response => {this.setState({deckId: response.data.deck_id, houseHand: [], playerHand: [], houseTotal: 0, playerTotal: 0, games: 0, active: false, win: 0})})
+      .then(response => { this.setState({ deckId: response.data.deck_id, houseHand: [], playerHand: [], houseTotal: 0, playerTotal: 0, games: 0, active: false, win: 0 }) })
       .catch(err => console.log(`Shuffle: ${err}`))
     this.state.bal > 0 && this.state.name ? document.getElementById('Splash').style.display = 'none' : alert('Insert your name and a starting balance higher then $0')
   }
@@ -45,7 +45,7 @@ class App extends Component {
           this.handleLose()
         } else if (playerTotal === 21 && this.state.active) {
           this.handleWin()
-        } else {this.setState({ games: (this.state.games+1), active: true, houseHand, playerHand, houseTotal, playerTotal, win: 0 })}
+        } else { this.setState({ games: (this.state.games + 1), active: true, houseHand, playerHand, houseTotal, playerTotal, win: 0 }) }
       })
       .catch(err => console.log(`Deal: ${err}`))
   }
@@ -57,7 +57,7 @@ class App extends Component {
           this.handleAce(response.data.cards[0].value)
           // Joins the players hand and new card image
           const playerHand = this.state.playerHand.slice()
-          playerHand.push(response.data.cards[0].image) 
+          playerHand.push(response.data.cards[0].image)
           // Update players total
           const playerTotal = this.state.playerTotal + this.handleValue(response.data.cards[0].value)
           // Set State with new values
@@ -92,8 +92,8 @@ class App extends Component {
   handleIncrease = () => {
     if (!this.state.active) {
       if (this.state.bal >= 5) {
-        const bet = this.state.bet+5
-        const bal = this.state.bal-5
+        const bet = this.state.bet + 5
+        const bal = this.state.bal - 5
         this.setState({ bet, bal })
       }
     }
@@ -101,15 +101,15 @@ class App extends Component {
   handleDecrease = () => {
     if (!this.state.active) {
       if (this.state.bet > 0) {
-        const bet = this.state.bet-5
-        const bal = this.state.bal+5
+        const bet = this.state.bet - 5
+        const bal = this.state.bal + 5
         this.setState({ bet, bal })
       }
     }
   }
 
   // Support Functions
-  handleInputChange = e => {this.setState({[e.target.name]: e.target.value})}
+  handleInputChange = e => { this.setState({ [e.target.name]: e.target.value }) }
   handleValue = (response, hand) => {
     if (response === 'KING' || response === 'QUEEN' || response === 'JACK') {
       return 10
@@ -117,13 +117,13 @@ class App extends Component {
     else if (response === 'ACE') {
       if (`this.state.${hand}Total` > 10) {
         return 1
-      } else {return 11}
+      } else { return 11 }
     } else {
       return Number(response)
     }
   }
   handleWin = () => {
-    const bal = this.state.bal + (this.state.bet*2)
+    const bal = this.state.bal + (this.state.bet * 2)
     this.setState({
       active: false,
       bet: 0,
@@ -144,29 +144,27 @@ class App extends Component {
   }
   handleAce = (response) => {
     if (response === 'ACE') {
-      this.setState({playerAce: true})
+      this.setState({ playerAce: true })
     }
   }
   handleHouse = () => {
     console.log('Pre handleHouse')
-    return (
-      axios.get(`https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=1`)
-        .then(response => {
-          console.log('I got inside')
-          // Joins the house hand and new card image
-          const houseHand = this.state.houseHand.slice()
-          houseHand.push(response.data.cards[0].image) 
-          // Update players total
-          const houseTotal = this.state.houseTotal + this.handleValue(response.data.cards[0].value)
-          // Set State with new values
-          this.setState({ houseHand, houseTotal })
-          // Check for bust and if the player had an ACE
-          if (houseTotal > 21) {
-            this.handleWin()
-          }
-        })
-        .catch(err => console.log(`House Hit: ${err}`))
-    )
+    axios.get(`https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=1`)
+      .then(response => {
+        console.log('I got inside')
+        // Joins the house hand and new card image
+        const houseHand = this.state.houseHand.slice()
+        houseHand.push(response.data.cards[0].image)
+        // Update players total
+        const houseTotal = this.state.houseTotal + this.handleValue(response.data.cards[0].value)
+        // Set State with new values
+        this.setState({ houseHand, houseTotal })
+        // Check for bust
+        if (houseTotal > 21) {
+          this.handleWin()
+        }
+      })
+      .catch(err => console.log(`House Hit: ${err}`))
   }
 
   render() {
@@ -174,9 +172,9 @@ class App extends Component {
       <div className='App'>
         <h1 className='title'>ReactJack 21</h1>
         <div className='hands'>
-          <h1>Dealer - {this.state.houseTotal} <i className="fas fa-angle-double-down"/></h1>
+          <h1>Dealer - {this.state.houseTotal} <i className="fas fa-angle-double-down" /></h1>
           <CardList className='dealer' cards={this.state.houseHand} />
-          <h1>{this.state.name} - {this.state.playerTotal} <i className="fas fa-angle-double-down"/></h1>
+          <h1>{this.state.name} - {this.state.playerTotal} <i className="fas fa-angle-double-down" /></h1>
           <CardList className='player' cards={this.state.playerHand} />
         </div>
         <div className='sidebar'>
