@@ -74,11 +74,15 @@ class App extends Component {
     }
   }
   handleStand = () => {
-    do {
+    // do {
+    //   this.handleHouse()
+    //   console.log(this.state.houseTotal)
+    // }
+    // while (this.state.houseTotal < 17 && this.state.active)
+    if (this.state.houseTotal < 17 && this.state.active) {
       this.handleHouse()
-      console.log(this.state.houseTotal)
+      return this.handleStand()
     }
-    while (this.state.houseTotal < 17 && this.state.active)
     if (this.state.playerTotal > this.state.houseTotal) {
       this.handleWin()
     } else {
@@ -145,22 +149,24 @@ class App extends Component {
   }
   handleHouse = () => {
     console.log('Pre handleHouse')
-    axios.get(`https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=1`)
-      .then(response => {
-        // Joins the house hand and new card image
-        const houseHand = this.state.houseHand.slice()
-        houseHand.push(response.data.cards[0].image) 
-        // Update players total
-        const houseTotal = this.state.houseTotal + this.handleValue(response.data.cards[0].value)
-        // Set State with new values
-        this.setState({ houseHand, houseTotal })
-        // Check for bust and if the player had an ACE
-        if (houseTotal > 21) {
-          this.handleWin()
-        }
-      })
-      .catch(err => console.log(`House Hit: ${err}`))
-    console.log('Post handleHouse')
+    return (
+      axios.get(`https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=1`)
+        .then(response => {
+          console.log('I got inside')
+          // Joins the house hand and new card image
+          const houseHand = this.state.houseHand.slice()
+          houseHand.push(response.data.cards[0].image) 
+          // Update players total
+          const houseTotal = this.state.houseTotal + this.handleValue(response.data.cards[0].value)
+          // Set State with new values
+          this.setState({ houseHand, houseTotal })
+          // Check for bust and if the player had an ACE
+          if (houseTotal > 21) {
+            this.handleWin()
+          }
+        })
+        .catch(err => console.log(`House Hit: ${err}`))
+    )
   }
 
   render() {
@@ -189,3 +195,4 @@ export default App;
 
 
 // Handle Stand
+// Tie response
