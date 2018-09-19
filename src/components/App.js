@@ -46,11 +46,14 @@ class App extends Component {
         const playerTotal = this.handleValue(response.data.cards[1].value, 'player') + this.handleValue(response.data.cards[3].value, 'player')
         this.handleAce(response.data.cards[1].value)
         this.handleAce(response.data.cards[3].value)
-        if (houseTotal === 21 && playerTotal < 22 && this.state.active) {
+        this.setState({ games: (this.state.games + 1), active: true, houseHand, playerHand, houseTotal, playerTotal, win: 0 })
+        if (this.state.houseTotal === 21 && this.state.playerTotal < 22 && this.state.active) {
+          console.log('House 21')
           this.handleLose()
-        } else if (playerTotal === 21 && this.state.active) {
+        } else if (this.state.playerTotal === 21 && this.state.active) {
+          console.log('Player 21')
           this.handleWin()
-        } else { this.setState({ games: (this.state.games + 1), active: true, houseHand, playerHand, houseTotal, playerTotal, win: 0 }) }
+        }
       })
       .catch(err => console.log(`Deal: ${err}`))
   }
@@ -125,7 +128,6 @@ class App extends Component {
     const bal = this.state.bal + (this.state.bet * 2)
     this.setState({
       active: false,
-      bet: 0,
       bal,
       playerAce: false,
       win: `${this.state.bet} WIN`
@@ -186,5 +188,7 @@ class App extends Component {
 
 export default App;
 
-// 21 on Deal
 // Tie
+// Split ACES
+// Dealer ACE Bust
+// Blackjack Payout
