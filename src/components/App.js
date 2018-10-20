@@ -119,7 +119,7 @@ class App extends Component {
     }
   }
   handleWin = () => {
-    const bal = this.state.bal + (this.state.bet * 2)
+    const bal = this.state.bal + (this.state.bet)
     this.setState({
       active: false,
       bal,
@@ -132,7 +132,7 @@ class App extends Component {
       active: false,
       bet: 0,
       playerAce: false,
-      win: `${this.state.bet} Lose`
+      win: `${this.state.bet} LOSE`
     })
   }
   handleHouse = async () => {
