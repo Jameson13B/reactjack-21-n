@@ -52,6 +52,7 @@ class App extends Component {
           this.handleLose()
         } else if (this.state.playerTotal === 21 && this.state.active) {
           console.log('Player 21')
+          this.setState({ bal: this.state.bal+(this.state.bet/2) })
           this.handleWin()
         }
       })
@@ -173,4 +174,3 @@ export default App;
 
 // Tie
 // Dealer ACE Bust
-// Blackjack Payout
