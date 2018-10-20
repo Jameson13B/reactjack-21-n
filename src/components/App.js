@@ -83,8 +83,10 @@ class App extends Component {
     }
     else if (this.state.playerTotal > this.state.houseTotal || this.state.houseTotal > 21) {
       this.handleWin()
+    } else if (this.state.playerTotal == this.state.houseTotal) {
+      this.handlePush()
     } else {
-      this.handleLose()
+    this.handleLose()
     }
   }
   handleIncrease = () => {
@@ -126,6 +128,13 @@ class App extends Component {
       bal,
       playerAce: false,
       win: `${this.state.bet} WIN`
+    })
+  }
+  handlePush = () => {
+    this.setState({
+      active: false,
+      playerAce: false,
+      win: `PUSH`
     })
   }
   handleLose = () => {
@@ -172,5 +181,4 @@ class App extends Component {
 
 export default App;
 
-// Tie
 // Dealer ACE Bust
