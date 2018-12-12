@@ -1,10 +1,35 @@
 import React, { useGlobal } from "reactn";
+import axios from "axios";
+import blackjack_table from "../img/welcome.png";
 import "../styles/Splash.css";
 
 const Splash = props => {
-  const [name] = useGlobal("name");
-  const [bal] = useGlobal("bal");
+  const [name, setName] = useGlobal("name");
+  const [bal, setBal] = useGlobal("bal");
   const [deck] = useGlobal("deck");
+  const [global, setGlobal] = useGlobal();
+
+  const start = () => {
+    axios
+      .get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
+      .then(response => {
+        setGlobal({
+          deckId: response.data.deck_id,
+          houseHand: [],
+          playerHand: [],
+          houseTotal: 0,
+          playerTotal: 0,
+          games: 0,
+          active: false,
+          win: 0
+        });
+      })
+      .catch(err => console.log(`Shuffle: ${err}`));
+    global.bal > 0 && global.name
+      ? (document.getElementById("Splash").style.display = "none")
+      : alert("Insert your name and a starting balance higher then $0");
+  };
+
   return (
     <div id="Splash">
       <h1 className="header">Welcome to ReactJack 21</h1>
@@ -32,7 +57,9 @@ const Splash = props => {
           name="name"
           value={name}
           placeholder="Player"
-          onChange={props.handleInputChange}
+          onChange={e => {
+            setName(e.target.value);
+          }}
         />
       </div>
       <div className="bank">
@@ -41,10 +68,12 @@ const Splash = props => {
           name="bal"
           value={bal}
           placeholder="Balance"
-          onChange={props.handleInputChange}
+          onChange={e => {
+            setBal(e.target.value);
+          }}
         />
       </div>
-      <div className="start" onClick={props.start}>
+      <div className="start" onClick={start}>
         Start New
       </div>
       {deck ? (

@@ -1,62 +1,62 @@
 #Splash {
-    height: 100vh;
-    width: 100%;
-    max-width: 992px;
-    position: fixed;
-    top: 0;
-    z-index: 25;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-image: url('../img/welcome.png');
-    background-size: cover;
+  height: 100vh;
+  width: 100%;
+  max-width: 992px;
+  position: fixed;
+  top: 0;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("../img/welcome.png");
+  background-size: cover;
 }
 #Splash .header {
-    font-size: 6rem;
-    margin: 5% 0 3% 0;
-    color: white;
+  font-size: 6rem;
+  margin: 5% 0 3% 0;
+  color: white;
 }
 #Splash p {
-    font-size: 2rem;
-    margin: 2%;
-    color: white;
+  font-size: 2rem;
+  margin: 2%;
+  color: white;
 }
 #Splash .name {
-    display: flex; 
-    font-size: 2rem;  
-    margin: 2%;
-    border: 1px solid black;
-    border-radius: 15px;
-    padding: 1%;
-    background: rgb(255, 255, 255, .75);
+  display: flex;
+  font-size: 2rem;
+  margin: 2%;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 1%;
+  background: rgb(255, 255, 255, 0.75);
 }
 .name h1 {
-    margin: auto 0;
+  margin: auto 0;
 }
 #Splash .bank {
-    display: flex;   
-    font-size: 2rem;  
-    margin: 2%;
-    border: 1px solid black;
-    border-radius: 15px;
-    padding: 1%;
-    background: rgb(255, 255, 255, .75);
+  display: flex;
+  font-size: 2rem;
+  margin: 2%;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 1%;
+  background: rgb(255, 255, 255, 0.75);
 }
 .bank h1 {
-    margin: auto 0;
+  margin: auto 0;
 }
 input {
-    margin-left: 1rem;
-    font-size: 2rem;
+  margin-left: 1rem;
+  font-size: 2rem;
 }
 .start {
-    border: 1px solid black;
-    border-radius: 15px;
-    width: 15%;
-    height: 3%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgb(255, 255, 255, .75);
-    cursor: pointer;
+  border: 1px solid black;
+  border-radius: 15px;
+  width: 15%;
+  height: 3%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(255, 255, 255, 0.75);
+  cursor: pointer;
 }
