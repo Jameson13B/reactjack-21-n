@@ -18,7 +18,6 @@ const ButtonList = props => {
   const [playerAce, setPlayerAce] = useGlobal("playerAce");
 
   const handleDeal = () => {
-    console.log("handleDeal");
     if (games === 3) {
       axios
         .get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
@@ -31,41 +30,42 @@ const ButtonList = props => {
     axios
       .get(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
       .then(response => {
+        const houseTot =
+          handleValue(response.data.cards[0].value, "house") +
+          handleValue(response.data.cards[2].value, "house");
+        const playerTot =
+          handleValue(response.data.cards[1].value, "player") +
+          handleValue(response.data.cards[3].value, "player");
+        if (houseTot === 21 && playerTot < 22 && active) {
+          console.log("House 21");
+          handleLose();
+        } else if (playerTot === 21 && active) {
+          console.log("Player 21");
+          setBet(bet + bet / 2);
+          handleWin();
+        }
+
         setHouseHand([
           response.data.cards[0].image,
           response.data.cards[2].image
         ]);
-        setHouseTotal(
-          handleValue(response.data.cards[0].value, "house") +
-            handleValue(response.data.cards[2].value, "house")
-        );
+        setHouseTotal(houseTot);
         setPlayerHand([
           response.data.cards[1].image,
           response.data.cards[3].image
         ]);
-        setPlayerTotal(
-          handleValue(response.data.cards[1].value, "player") +
-            handleValue(response.data.cards[3].value, "player")
-        );
+        setPlayerTotal(playerTot);
         handleAce(response.data.cards[1].value);
         handleAce(response.data.cards[3].value);
         setGames(games + 1);
         setActive(true);
         setWin(0);
-        if (houseTotal === 21 && playerTotal < 22 && active) {
-          console.log("House 21");
-          handleLose();
-        } else if (playerTotal === 21 && active) {
-          console.log("Player 21");
-          setBet(bet + bet / 2);
-          handleWin();
-        }
-        console.log("Global: ", global);
+        console.log(playerTotal, houseTotal);
+        console.log(playerHand, houseHand);
       })
       .catch(err => console.log(`Deal: ${err}`));
   };
   const handleHit = () => {
-    console.log("handleHit");
     if (active) {
       axios
         .get(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
@@ -73,24 +73,25 @@ const ButtonList = props => {
           handleAce(response.data.cards[0].value);
           const playerArr = playerHand.slice();
           playerArr.push(response.data.cards[0].image);
-          setPlayerHand(playerArr);
-          setPlayerTotal(
-            playerTotal + handleValue(response.data.cards[0].value)
-          );
+          const playerTot =
+            playerTotal + handleValue(response.data.cards[0].value);
           if (playerTotal > 21 && playerAce) {
             setPlayerTotal(playerTotal - 10);
             setPlayerAce(false);
           } else if (playerTotal > 21) {
             handleLose();
           }
-
-          console.log("Global: ", global);
+          console.log(playerTotal, houseTotal);
+          console.log(playerHand, houseHand);
+          setPlayerHand(playerArr);
+          setPlayerTotal(playerTot);
         })
         .catch(err => console.log(`Hit: ${err}`));
+    } else {
+      alert("Not active");
     }
   };
   const handleStand = () => {
-    console.log("handleStand");
     if (houseTotal < 17 && active) {
       handleHouse().then(handleStand);
     } else if (playerTotal === houseTotal) {
@@ -100,18 +101,17 @@ const ButtonList = props => {
     } else {
       handleLose();
     }
-    console.log("Global: ", global);
+    console.log(playerTotal, houseTotal);
+    console.log(playerHand, houseHand);
   };
 
   // Support Functions
   const handleAce = response => {
-    console.log("handleAce");
     if (response === "ACE") {
       setPlayerAce(true);
     }
   };
   const handleValue = (response, hand) => {
-    console.log("handleValue");
     if (response === "KING" || response === "QUEEN" || response === "JACK") {
       return 10;
     } else if (response === "ACE") {
@@ -125,31 +125,27 @@ const ButtonList = props => {
     }
   };
   const handleWin = () => {
-    console.log("handleWin");
     setActive(false);
     setBal(bal + bet);
     setPlayerAce(false);
     setWin(`${bet} WIN`);
   };
   const handlePush = () => {
-    console.log("handlePush");
     setActive(false);
     setPlayerAce(false);
     setWin(`PUSH`);
   };
   const handleLose = () => {
-    console.log("handleLose");
     setActive(false);
     setBet(0);
     setPlayerAce(false);
     setWin(`${bet} LOSE`);
   };
   const handleHouse = async () => {
-    console.log("handleHouse");
     return axios
       .get(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
       .then(response => {
-        const houseArr = houseHand.slice();
+        let houseArr = houseHand.slice();
         houseArr.push(response.data.cards[0].image);
         setHouseHand(houseArr);
         setHouseTotal(houseTotal + handleValue(response.data.cards[0].value));
